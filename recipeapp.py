@@ -11,8 +11,8 @@ st.title("🍳 AI Culinary Assistant")
 st.write("Ask for recipes, cooking tips, or ingredient modifications!")
 
 # 2. Setup API key and model
-# (Tip: You can replace this with your actual key or load it from environment variables)
-os.environ["OPENAI_API_KEY"] = "Typehere"
+# (Tip: Replace "Typehere" with your actual OpenAI API key)
+os.environ["OPENAI_API_KEY"] = "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"
 model = ChatOpenAI(model="gpt-4o-mini", temperature=0.7)
 
 # 3. Prompt Template
@@ -34,16 +34,25 @@ for message in st.session_state.chat_history:
     with st.chat_message(role):
         st.markdown(message.content)
 
-# 6. Capture User Input via Streamlit Chat Input Box
-if user_input := st.chat_input("What would you like to cook today?"):
-    
+# 6. Capture User Input (via Quick Button OR Chat Input Box)
+user_input = None
+
+# Quick-action button for Breakfast Ideas
+if st.button("🥞 Give me 5 Breakfast Ideas"):
+    user_input = "Give me 5 Breakfast Ideas"
+
+# Manual text input box
+if typed_input := st.chat_input("What would you like to cook today?"):
+    user_input = typed_input
+
+# 7. Process and Stream Response if either input was triggered
+if user_input:
     # Display user message immediately in UI
     with st.chat_message("user"):
         st.markdown(user_input)
         
     # Generate and stream assistant response
     with st.chat_message("assistant"):
-        # st.write_stream automatically handles streaming chunks from LangChain!
         response_stream = chain.stream({
             "input": user_input, 
             "chat_history": st.session_state.chat_history

@@ -12,7 +12,7 @@ st.write("Ask for recipes, cooking tips, or ingredient modifications!")
 
 # 2. Setup API key and model
 # (Tip: Replace "Typehere" with your actual OpenAI API key)
-os.environ["OPENAI_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = "Typehere"
 model = ChatOpenAI(model="gpt-4o-mini", temperature=0.7)
 
 # 3. Prompt Template
